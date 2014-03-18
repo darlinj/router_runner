@@ -1,3 +1,5 @@
+require_relative 'connected_telnet_session'
+
 class LoginToRouter
 
   class ConnectionError < StandardError ;end
@@ -14,7 +16,7 @@ class LoginToRouter
       login
       put_router_into_unprivileged_mode
       setup_terminal
-      yield session
+      yield ConnectedTelnetSession.new(@session)
       logout
     end
   end
@@ -35,7 +37,7 @@ private
   end
 
   def login
-    response = waitfor_timed /Username: |Password: |[#>]$/
+    response = waitfor_timed(/Username: |Password: |[#>]$/)
     if response =~ /Username: /
       send_then_wait_for @username, /Password: /
       send_then_wait_for @password, /[#>]$/

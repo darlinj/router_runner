@@ -4,9 +4,11 @@ describe LoginToRouter, '#connect' do
   let(:telnet_connection) { double(:telnet_connection) }
   let(:telnet_session) { double(:telnet_session).as_null_object }
   let(:login_to_router) { LoginToRouter.new(telnet_connection, "a username", "a password") }
+  let(:connected_telnet_session) { double }
 
   before do
     telnet_connection.stub(:connect).and_yield(telnet_session)
+    ConnectedTelnetSession.stub(:new).with(telnet_session).and_return(connected_telnet_session)
   end
 
   it 'opens and closes the session' do
@@ -71,7 +73,7 @@ describe LoginToRouter, '#connect' do
   end
 
   it 'yields the telnet session' do
-    expect { |b| login_to_router.connect(&b) }.to yield_with_args(telnet_session)
+    expect { |b| login_to_router.connect(&b) }.to yield_with_args(connected_telnet_session) 
   end
 end
 
