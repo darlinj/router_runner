@@ -1,6 +1,8 @@
 # RouterRunner
 
-TODO: Write a gem description
+This is a simple gem that allows you to run commands on routers that are behind a jump server.
+
+This probably only works with cisco routers and for only a subset of commands.  Please feel free to extend it.
 
 ## Installation
 
@@ -18,7 +20,17 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+    connection_details = {router_username: "fred", 
+                          router_password: "secret", 
+                          router_hostname: "router1", 
+                          jump_box_username: "bill", 
+                          jump_box_password: "real_secret", 
+                          jump_box_ip_address: "1.2.3.4"}
+    result = ""
+    RouterRunner.with_connection_details(connection_details) do | router |
+      result = router.run("some command")
+    end
+    expect(result).to eq("Some stuff from a router")
 
 ## Contributing
 
