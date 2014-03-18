@@ -33,3 +33,4 @@ describe RouterConnection, "#connect" do
     end
   end
 end
+
