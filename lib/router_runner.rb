@@ -1,8 +1,6 @@
 require "router_runner/version"
 
-require_relative 'connect_directly_to_router'
-require_relative 'offlicence'
-require_relative 'offlicence_router'
+require_relative 'router_connection'
 
 module RouterRunner
   def self.with_connection_details(connection_details)
