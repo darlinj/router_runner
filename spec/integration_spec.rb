@@ -1,12 +1,12 @@
 require "spec_helper"
 
 describe "running a command on a router" do
-  let(:telnet_connection) { double(:telnet_connection, puts: "stuff", waitfor: true) }
+  let(:telnet_connection) { double(:telnet_connection, puts: "stuff", waitfor: true, close: true) }
   let(:router_connection) { double(:router_connection) }
 
   before do
     Net::SSH::Telnet.stub(:new).and_return(telnet_connection)
-    telnet_connection.stub(:puts).with("telnet router1").and_return router_connection
+    telnet_connection.stub(:waitfor).with(/[#>]$/).and_return "Some stuff from a router"
   end
 
   it "should send the command to the router" do
