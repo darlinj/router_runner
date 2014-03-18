@@ -8,7 +8,8 @@ describe RouterConnection, "#connect" do
                             "jump_box_username" => "pooh",
                             "jump_box_password" => "meh",
                             "router_username" => "foo",
-                            "router_password" => "bar"
+                            "router_password" => "bar",
+                            "router_hostname" => "an_address"
                          } }
 
   before do
@@ -16,9 +17,19 @@ describe RouterConnection, "#connect" do
     ConnectDirectlyToRouter.stub(:new).with("an_address", jump_server).and_return(router_connection)
   end
 
+  it "logs into the jump server" do
+    JumpServer.should_receive(:new).with("1.1.1.1", "pooh", "meh")
+    RouterConnection.new(credentials).build
+  end
+
+  it "connects to the router" do
+    ConnectDirectlyToRouter.should_receive(:new).with("an_address", jump_server)
+    RouterConnection.new(credentials).build
+  end
+
   it "logs into the router" do
     LoginToRouter.should_receive(:new).with(router_connection, "foo", "bar")
-    RouterConnection.new("an_address", credentials).build
+    RouterConnection.new(credentials).build
   end
 
 end
