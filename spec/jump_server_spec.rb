@@ -5,9 +5,10 @@ describe JumpServer, '#connect' do
   let(:ssh_options) { {"Host"     => "1.2.3.4",
                        "Username" => "a username",
                        "Password" => "a password",
-                       "Prompt"   =>  /: $/
+                       "Prompt"   =>  /: $/,
+                       "Dump_log"  => "debug.log"
                     } }
-  let(:jump_server) { JumpServer.new("1.2.3.4", "a username", "a password")        }
+  let(:jump_server) { JumpServer.new("1.2.3.4", "a username", "a password", true, "debug.log")        }
 
   before do
     Net::SSH::Telnet.stub(:new).with(ssh_options).and_return(ssh_session)

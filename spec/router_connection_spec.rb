@@ -9,16 +9,18 @@ describe RouterConnection, "#connect" do
                             "jump_box_password" => "meh",
                             "router_username" => "foo",
                             "router_password" => "bar",
-                            "router_hostname" => "an_address"
+                            "router_hostname" => "an_address",
+                            "debug" => true,
+                            "debug_output_file" => "some_file.log"
                          } }
 
   before do
-    JumpServer.stub(:new).with("1.1.1.1", "pooh", "meh").and_return(jump_server)
+    JumpServer.stub(:new).with("1.1.1.1", "pooh", "meh", true, "some_file.log").and_return(jump_server)
     ConnectDirectlyToRouter.stub(:new).with("an_address", jump_server).and_return(router_connection)
   end
 
   it "logs into the jump server" do
-    JumpServer.should_receive(:new).with("1.1.1.1", "pooh", "meh")
+    JumpServer.should_receive(:new).with("1.1.1.1", "pooh", "meh", true, "some_file.log")
     RouterConnection.new(credentials).build
   end
 

@@ -2,10 +2,12 @@ require 'net/ssh/telnet'
 
 class JumpServer
 
-  def initialize ip_address, username, password
+  def initialize ip_address, username, password, debug = false, debug_output_file=""
     @ip_address = ip_address
     @username = username
     @password = password
+    @debug_output_file = debug_output_file
+    @debug = debug
   end
 
   def connect
@@ -22,8 +24,9 @@ private
                        ssh_options = { "Host"      => @ip_address,
                                        "Username"  => @username,
                                        "Password"  => @password,
-                                       "Prompt"    =>  /: $/,
+                                       "Prompt"    =>  /: $/
                        }
+                       ssh_options["Dump_log"] = @debug_output_file if @debug = true
                        ssh_options
                      end
   end

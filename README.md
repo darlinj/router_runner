@@ -19,15 +19,17 @@ Or install it yourself as:
     $ gem install router_runner
 
 ## Usage
-
-    connection_details = {router_username: "fred", 
+    config = {router_username: "fred", 
                           router_password: "secret", 
                           router_hostname: "router1", 
                           jump_box_username: "bill", 
                           jump_box_password: "real_secret", 
-                          jump_box_ip_address: "1.2.3.4"}
+                          jump_box_ip_address: "1.2.3.4",
+                          debug_output: true,
+                          debug_output_file: "debug.log" 
+                          }
     result = ""
-    RouterRunner.with_connection_details(connection_details) do | router |
+    RouterRunner.with_connection_details(config) do | router |
       result = router.run("some command")
     end
     expect(result).to eq("Some stuff from a router")
