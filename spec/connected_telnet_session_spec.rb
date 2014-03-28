@@ -9,7 +9,7 @@ describe ConnectedTelnetSession, ".run" do
   end
 
   it "should wait for the result"  do
-    session.should_receive(:waitfor).with(/[#>]$/)
+    session.should_receive(:waitfor).with(/[#>]\s*$/)
     ConnectedTelnetSession.new(session).run("some command")
   end
 end

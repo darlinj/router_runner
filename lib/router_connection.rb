@@ -9,7 +9,7 @@ class RouterConnection
   end
 
   def build
-    jump_connection = JumpServer.new(@credentials[:jump_box_ip_address], @credentials[:jump_box_username],@credentials[:jump_box_password], @credentials[:debug], @credentials[:debug_output_file])
+    jump_connection = JumpServer.new(@credentials[:jump_box_ip_address], @credentials[:jump_box_username],@credentials[:jump_box_password], @credentials[:debug_output], @credentials[:debug_output_file])
     connection_to_router = ConnectDirectlyToRouter.new(@credentials[:router_hostname], jump_connection)
     LoginToRouter.new(connection_to_router, @credentials[:router_username], @credentials[:router_password])
   end

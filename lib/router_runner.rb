@@ -1,4 +1,4 @@
-require "router_runner/version"
+require_relative "router_runner/version"
 
 require_relative 'router_connection'
 

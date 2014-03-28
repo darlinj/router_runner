@@ -40,13 +40,13 @@ private
     response = waitfor_timed(/Username: |Password: |[#>]$/)
     if response =~ /Username: /
       send_then_wait_for @username, /Password: /
-      send_then_wait_for @password, /[#>]$/
+      send_then_wait_for @password, /[#>]\s*$/
     end
   end
 
 
   def put_router_into_unprivileged_mode
-    response = send_then_wait_for "", /[#>]$/
+    response = send_then_wait_for "", /[#>]\s*$/
     if response =~ /config-.*if\)\#/
       exit_interface_mode
     end
@@ -59,7 +59,8 @@ private
   end
 
   def setup_terminal
-    send_then_wait_for 'term len 0', /[#>]$/
+    send_then_wait_for 'term len 0', /[#>]\s*$/
+    send_then_wait_for 'set length 0', /[#>]\s*$/
   end
 
   def exit_interface_mode

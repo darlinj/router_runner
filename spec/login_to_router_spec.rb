@@ -18,11 +18,13 @@ describe LoginToRouter, '#connect' do
     telnet_session.should_receive(:puts).with('a username').ordered
     telnet_session.should_receive(:waitfor).with(/Password: /).ordered
     telnet_session.should_receive(:puts).with('a password').ordered
-    telnet_session.should_receive(:waitfor).with(/[#>]$/).ordered
+    telnet_session.should_receive(:waitfor).with(/[#>]\s*$/).ordered
     telnet_session.should_receive(:puts).with('').ordered
-    telnet_session.should_receive(:waitfor).with(/[#>]$/).ordered
+    telnet_session.should_receive(:waitfor).with(/[#>]\s*$/).ordered
     telnet_session.should_receive(:puts).with('term len 0').ordered
-    telnet_session.should_receive(:waitfor).with(/[#>]$/).ordered
+    telnet_session.should_receive(:waitfor).with(/[#>]\s*$/).ordered
+    telnet_session.should_receive(:puts).with('set length 0').ordered
+    telnet_session.should_receive(:waitfor).with(/[#>]\s*$/).ordered
     telnet_session.should_receive(:puts).with("logout").ordered
     login_to_router.connect {}
   end
@@ -32,16 +34,19 @@ describe LoginToRouter, '#connect' do
 
     telnet_session.should_receive(:waitfor).with(/Username: |Password: |[#>]$/).ordered
     telnet_session.should_receive(:puts).with('').ordered
-    telnet_session.should_receive(:waitfor).with(/[#>]$/).ordered
+    telnet_session.should_receive(:waitfor).with(/[#>]\s*$/).ordered
 
     telnet_session.should_receive(:puts).with('term len 0').ordered
-    telnet_session.should_receive(:waitfor).with(/[#>]$/).ordered
+    telnet_session.should_receive(:waitfor).with(/[#>]\s*$/).ordered
+
+    telnet_session.should_receive(:puts).with('set length 0').ordered
+    telnet_session.should_receive(:waitfor).with(/[#>]\s*$/).ordered
     telnet_session.should_receive(:puts).with("logout").ordered
     login_to_router.connect {}
   end
 
   it 'drops back to unprivileged mode from privilaged mode' do
-    telnet_session.stub(:waitfor).with(/[#>]$/).and_return("Router1#")
+    telnet_session.stub(:waitfor).with(/[#>]\s*$/).and_return("Router1#")
 
     telnet_session.should_receive(:puts).with("disable").ordered
     telnet_session.should_receive(:waitfor).with(/\>$/).ordered
@@ -49,7 +54,7 @@ describe LoginToRouter, '#connect' do
   end
 
   it 'drops back to unprivileged mode from config mode' do
-    telnet_session.stub(:waitfor).with(/[#>]$/).and_return("Router1(config)#")
+    telnet_session.stub(:waitfor).with(/[#>]\s*$/).and_return("Router1(config)#")
     telnet_session.stub(:waitfor).with(/\>$/)
 
     telnet_session.should_receive(:puts).with("exit").ordered
@@ -58,7 +63,7 @@ describe LoginToRouter, '#connect' do
   end
 
   it 'drops back to unprivileged mode from interface config mode' do
-    telnet_session.stub(:waitfor).with(/[#>]$/).and_return("Router1(config-if)#")
+    telnet_session.stub(:waitfor).with(/[#>]\s*$/).and_return("Router1(config-if)#")
     telnet_session.stub(:waitfor).with(/\>$/)
     telnet_session.stub(:waitfor).with(/config\)\#$/)
 

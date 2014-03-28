@@ -4,7 +4,7 @@ class ConnectedTelnetSession
   end
 
   def run command
-    send_then_wait_for(command, /[#>]$/)
+    send_then_wait_for(command, /[#>]\s*$/)
   end
 
   private

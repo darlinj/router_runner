@@ -10,7 +10,7 @@ describe RouterConnection, "#connect" do
                             "router_username" => "foo",
                             "router_password" => "bar",
                             "router_hostname" => "an_address",
-                            "debug" => true,
+                            "debug_output" => true,
                             "debug_output_file" => "some_file.log"
                          } }
 
